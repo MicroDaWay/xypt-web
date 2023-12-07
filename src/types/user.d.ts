@@ -4,8 +4,32 @@ export interface UserInfo {
   username: string
   nickname: string
   avatar: string
-  account_money: number
+  accountMoney: number
   role: number
-  create_time: string
-  update_time: string
+  gender: number
+  phone: string
+  createTime: string
+  updateTime: string
 }
+
+// 用户服务的类型
+export interface ServiceItem {
+  id: string
+  imgUrl: string
+  text: string
+  url: string
+}
+
+export type ServiceList = ServiceItem[]
+
+// 用户收支记录的数据类型
+export interface IncomeRecordItem {
+  id: number
+  state: number
+  moneyChange: number
+  userId: number
+  createTime: string
+  updateTime: string
+}
+
+export type IncomeRecordList = IncomeRecordItem[]

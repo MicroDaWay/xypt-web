@@ -31,6 +31,66 @@
       "style": {
         "navigationBarTitleText": "登录"
       }
+    },
+    {
+      "path": "pages/address/address",
+      "style": {
+        "navigationBarTitleText": "我的订单"
+      }
+    },
+    {
+      "path": "pages/income/income",
+      "style": {
+        "navigationBarTitleText": "收支明细"
+      }
+    },
+    {
+      "path": "pages/evaluate/evaluate",
+      "style": {
+        "navigationBarTitleText": "评价中心"
+      }
+    },
+    {
+      "path": "pages/wallet/wallet",
+      "style": {
+        "navigationBarTitleText": "我的钱包"
+      }
+    },
+    {
+      "path": "pages/certification/certification",
+      "style": {
+        "navigationBarTitleText": "骑手认证"
+      }
+    },
+    {
+      "path": "pages/riderOrder/riderOrder",
+      "style": {
+        "navigationBarTitleText": "骑手订单"
+      }
+    },
+    {
+      "path": "pages/userDetails/userDetails",
+      "style": {
+        "navigationBarTitleText": "个人信息"
+      }
+    },
+    {
+      "path": "pages/platform/platform",
+      "style": {
+        "navigationBarTitleText": "平台介绍"
+      }
+    },
+    {
+      "path": "pages/protocol/protocol",
+      "style": {
+        "navigationBarTitleText": "用户协议"
+      }
+    },
+    {
+      "path": "pages/recharge/recharge",
+      "style": {
+        "navigationBarTitleText": "充值"
+      }
     }
   ],
   "globalStyle": {

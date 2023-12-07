@@ -25,19 +25,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <swiper indicator-dots autoplay circular>
-    <swiper-item v-for="item in bannerList">
-      <image :src="item.imgUrl" />
+  <swiper class="swiper" indicator-dots autoplay circular>
+    <swiper-item v-for="item in bannerList" :key="item.id">
+      <image class="img" :src="item.imgUrl" />
     </swiper-item>
   </swiper>
 </template>
 
 <style lang="scss">
-swiper {
+.swiper {
   width: 100%;
   height: 300rpx;
 
-  image {
+  .img {
     width: 100%;
     height: 100%;
   }

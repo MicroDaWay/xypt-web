@@ -18,3 +18,11 @@ export const registerAPI = (data: LoginParams) => {
     data,
   })
 }
+
+// 退出登录
+export const logoutAPI = () => {
+  return request({
+    url: '/user/logout',
+    method: 'POST',
+  })
+}

@@ -80,9 +80,16 @@ const submitHandler = async () => {
           userStore.setUserInfo(result.data)
         }
 
-        uni.switchTab({
-          url: '/pages/index/index',
+        uni.showToast({
+          icon: 'none',
+          title: '登录成功',
         })
+
+        setTimeout(() => {
+          uni.switchTab({
+            url: '/pages/index/index',
+          })
+        }, 1000)
       } else {
         uni.showToast({
           icon: 'none',

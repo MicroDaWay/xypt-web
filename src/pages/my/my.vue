@@ -1,14 +1,107 @@
 <script setup lang="ts">
+import { getRiderServiceAPI, getUserServiceAPI } from '@/apis/user'
 import { useUserStore } from '@/store/modules/user'
+import type { ServiceList } from '@/types/user'
+import { onLoad } from '@dcloudio/uni-app'
+import { ref } from 'vue'
+import Service from './components/Service.vue'
+import { logoutAPI } from '@/apis/login'
 
 const userStore = useUserStore()
+
+// 用户服务数据
+const userService = ref<ServiceList>([])
+
+// 骑手服务数据
+const riderService = ref<ServiceList>([])
+
+// 获取用户服务数据
+const getUserService = async () => {
+  try {
+    const res = await getUserServiceAPI()
+    if (res.code === 0) {
+      userService.value = res.data
+    }
+  } catch (err) {
+    console.log('出错了', err)
+  }
+}
+
+// 获取骑手服务数据
+const getRiderService = async () => {
+  try {
+    const res = await getRiderServiceAPI()
+    if (res.code === 0) {
+      riderService.value = res.data
+    }
+  } catch (err) {
+    console.log('出错了', err)
+  }
+}
+
+onLoad(() => {
+  getUserService()
+  getRiderService()
+})
+
+// 点击退出登录的处理函数
+const logoutHandler = () => {
+  uni.showModal({
+    content: '你确定要退出登录吗',
+    success: async (res) => {
+      if (res.confirm) {
+        const result = await logoutAPI()
+        if (result.code === 0) {
+          userStore.logout()
+
+          uni.showToast({
+            icon: 'none',
+            title: '退出登录成功',
+          })
+
+          setTimeout(() => {
+            uni.redirectTo({
+              url: '/pages/login/login',
+            })
+          }, 1000)
+        }
+      }
+    },
+  })
+}
 </script>
 
 <template>
   <view class="my">
+    <!-- 用户头像昵称 -->
     <view class="avatar">
-      <image :src="userStore.userInfo.avatar" />
-      <view>{{ userStore.userInfo.nickname || userStore.userInfo.username }}</view>
+      <image class="img" :src="userStore.userInfo.avatar" />
+      <view>{{ userStore.showName }}</view>
+    </view>
+
+    <!-- 用户服务 -->
+    <Service service-text="用户服务" :service-list="userService"></Service>
+
+    <!-- 骑手服务 -->
+    <Service service-text="骑手服务" :service-list="riderService"></Service>
+
+    <view class="bottom">
+      <navigator url="/pages/userDetails/userDetails" class="item">
+        <uni-icons type="person"></uni-icons>
+        <view class="item-text">个人信息</view>
+      </navigator>
+      <navigator url="/pages/platform/platform" class="item">
+        <uni-icons type="vip"></uni-icons>
+        <view class="item-text">平台介绍</view>
+      </navigator>
+      <navigator url="/pages/protocol/protocol" class="item">
+        <uni-icons type="paperclip"></uni-icons>
+        <view class="item-text">用户协议</view>
+      </navigator>
+      <view class="item" @tap="logoutHandler">
+        <uni-icons type="undo"></uni-icons>
+        <view class="item-text">退出登录</view>
+      </view>
     </view>
   </view>
 </template>
@@ -21,19 +114,37 @@ page {
 }
 
 .my {
+  padding: 20rpx;
+
   .avatar {
     display: flex;
     flex-flow: column;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 200rpx;
+    height: 220rpx;
 
-    image {
-      width: 100rpx;
-      height: 100rpx;
+    .img {
+      width: 150rpx;
+      height: 150rpx;
       border-radius: 50%;
       margin-bottom: 10rpx;
+    }
+  }
+
+  .bottom {
+    background-color: #fff;
+
+    .item {
+      display: flex;
+      align-items: center;
+      height: 70rpx;
+      padding: 0 20rpx;
+      border-bottom: 1rpx solid #eee;
+
+      .item-text {
+        margin-left: 20rpx;
+      }
     }
   }
 }
