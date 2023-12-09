@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { getUserInfoAPI, updateUserInfoAPI } from '@/apis/user'
-import { useUserStore } from '@/store/modules/user'
 import type { UserInfo } from '@/types/user'
 import { onLoad, onReady } from '@dcloudio/uni-app'
 import { ref } from 'vue'
@@ -9,8 +8,6 @@ import { ref } from 'vue'
 const formData = ref<UserInfo>({} as UserInfo)
 
 const formRef = ref()
-
-const userStore = useUserStore()
 
 // 表单校验规则
 const rules = ref({
@@ -62,7 +59,6 @@ const getUserInfo = async () => {
     const res = await getUserInfoAPI()
     if (res.code === 0) {
       formData.value = res.data
-      userStore.userInfo = res.data
     }
   } catch (err) {
     console.log('出错了', err)
@@ -126,8 +122,6 @@ const submitHandler = async () => {
         icon: 'success',
         title: '更新成功',
       })
-
-      getUserInfo()
 
       setTimeout(() => {
         uni.navigateBack()

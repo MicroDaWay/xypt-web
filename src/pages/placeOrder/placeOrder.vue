@@ -1,14 +1,59 @@
 <script setup lang="ts">
 import { getAddressAPI } from '@/apis/address'
+import { submitOrderAPI } from '@/apis/order'
 import { useAddressStore } from '@/store/modules/address'
 import type { AddressItem } from '@/types/address'
-import { onShow } from '@dcloudio/uni-app'
+import type { PlaceOrderParams } from '@/types/order'
+import { onReady, onShow } from '@dcloudio/uni-app'
 import { computed, ref } from 'vue'
 
 const props = defineProps<{
-  state: number
+  orderType: number
 }>()
 
+const formRef = ref()
+
+const formData = ref<PlaceOrderParams>({
+  orderType: +props.orderType,
+  fee: 1,
+} as PlaceOrderParams)
+
+const rules = ref({
+  tradeName: {
+    rules: [
+      {
+        required: true,
+        errorMessage: '物品名称不能为空',
+      },
+      {
+        validateFunction: function (rule: any, value: any, data: any, callback: any) {
+          if (!/^\S{1,20}$/.test(value)) {
+            callback('物品名称必须为1-20位非空字符')
+          }
+          return true
+        },
+      },
+    ],
+  },
+  desc: {
+    rules: [
+      {
+        required: true,
+        errorMessage: '描述信息不能为空',
+      },
+      {
+        validateFunction: function (rule: any, value: any, data: any, callback: any) {
+          if (!/^\S{1,20}$/.test(value)) {
+            callback('描述信息必须为1-20位非空字符')
+          }
+          return true
+        },
+      },
+    ],
+  },
+})
+
+// 地址
 const address = ref<AddressItem>({} as AddressItem)
 
 // 获取地址列表
@@ -38,6 +83,10 @@ onShow(() => {
   getAddressList()
 })
 
+onReady(() => {
+  formRef.value.setRules(rules.value)
+})
+
 // 修改地址
 const changeAddress = () => {
   uni.navigateTo({
@@ -45,35 +94,59 @@ const changeAddress = () => {
   })
 }
 
-const formRef = ref()
-
-const rules = ref({
-  tradeName: {
-    rules: [],
-  },
-  desc: {
-    rules: [],
-  },
-  fee: {
-    rules: [],
-  },
-  orderType: {
-    rules: [],
-  },
-})
-
 // 订单类型
 const range = ref([
   { value: 0, text: '代拿快递' },
   { value: 1, text: '代取餐品' },
   { value: 2, text: '代买零食' },
 ])
+
+// 点击提交订单的处理函数
+const submitHandler = async () => {
+  if (!selectedAddress.value?.id) {
+    uni.showToast({
+      icon: 'none',
+      title: '请选择收货地址',
+    })
+    return
+  }
+
+  await formRef.value.validate()
+
+  try {
+    const res = await submitOrderAPI(formData.value)
+    if (res.code === 0) {
+      uni.showToast({
+        icon: 'success',
+        title: '下单成功',
+      })
+
+      setTimeout(() => {
+        uni.switchTab({
+          url: '/pages/order/order',
+        })
+      }, 1000)
+    } else {
+      uni.showToast({
+        icon: 'fail',
+        title: '下单失败',
+      })
+    }
+  } catch (err) {
+    console.log('出错了', err)
+  }
+}
+
+// 修改订单类型的处理函数
+const changeOrderType = (e: any) => {
+  formData.value.orderType = e
+}
 </script>
 
 <template>
   <view class="place-order">
     <view class="address">
-      <view v-if="!selectedAddress.id" @tap="changeAddress">请选择收货地址</view>
+      <view v-if="!selectedAddress?.id" @tap="changeAddress">请选择收货地址</view>
       <view v-else @tap="changeAddress">
         <view class="name-phone">
           <text class="name">{{ selectedAddress.name }}</text>
@@ -85,27 +158,31 @@ const range = ref([
         </view>
       </view>
     </view>
-    <view class="form" :rules="rules">
-      <uni-forms label-align="right" ref="formRef">
-        <uni-forms-item label="物品名称" :label-width="70">
-          <uni-easyinput type="text" placeholder="请输入物品名称" />
+    <view class="form">
+      <uni-forms label-align="right" ref="formRef" :modelValue="formData">
+        <uni-forms-item label="物品名称" :label-width="70" name="tradeName">
+          <uni-easyinput type="text" placeholder="请输入物品名称" v-model="formData.tradeName" />
         </uni-forms-item>
-        <uni-forms-item label="描述信息" :label-width="70">
-          <uni-easyinput type="text" placeholder="请输入描述信息" />
+        <uni-forms-item label="描述信息" :label-width="70" name="desc">
+          <uni-easyinput type="text" placeholder="请输入描述信息" v-model="formData.desc" />
         </uni-forms-item>
         <uni-forms-item label="小费" :label-width="70">
           <view class="number">
-            <uni-number-box :min="1"></uni-number-box>
+            <uni-number-box :min="1" v-model="formData.fee"></uni-number-box>
           </view>
         </uni-forms-item>
       </uni-forms>
       <uni-forms-item label="订单类型" :label-width="70">
-        <uni-data-select v-model="value" :localdata="range" @change="change"></uni-data-select>
+        <uni-data-select
+          v-model="formData.orderType"
+          :localdata="range"
+          @change="changeOrderType"
+        ></uni-data-select>
       </uni-forms-item>
       <uni-forms-item label="备注" :label-width="70">
-        <uni-easyinput type="text" placeholder="请输入备注" />
+        <uni-easyinput type="text" placeholder="请输入备注" v-model="formData.note" />
       </uni-forms-item>
-      <button class="submit">提交订单</button>
+      <button class="submit" @tap="submitHandler">提交订单</button>
     </view>
   </view>
 </template>

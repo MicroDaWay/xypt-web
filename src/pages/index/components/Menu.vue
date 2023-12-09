@@ -27,7 +27,7 @@ onLoad(() => {
 <template>
   <view class="outer">
     <navigator
-      url="/pages/placeOrder/placeOrder"
+      :url="`/pages/placeOrder/placeOrder?orderType=${item.state}`"
       class="item"
       v-for="item in menuList"
       :key="item.id"

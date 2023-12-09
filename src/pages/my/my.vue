@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { getRiderServiceAPI, getUserServiceAPI } from '@/apis/user'
+import { logoutAPI } from '@/apis/login'
+import { getRiderServiceAPI, getUserInfoAPI, getUserServiceAPI } from '@/apis/user'
 import { useUserStore } from '@/store/modules/user'
 import type { ServiceList } from '@/types/user'
-import { onLoad } from '@dcloudio/uni-app'
+import { onLoad, onShow } from '@dcloudio/uni-app'
 import { ref } from 'vue'
-import Service from './components/Service.vue'
-import { logoutAPI } from '@/apis/login'
+import RiderService from './components/RiderService.vue'
+import UserService from './components/UserService.vue'
 
 const userStore = useUserStore()
 
@@ -38,6 +39,22 @@ const getRiderService = async () => {
     console.log('出错了', err)
   }
 }
+
+// 获取用户信息
+const getUserInfo = async () => {
+  try {
+    const res = await getUserInfoAPI()
+    if (res.code === 0) {
+      userStore.setUserInfo(res.data)
+    }
+  } catch (err) {
+    console.log('出错了', err)
+  }
+}
+
+onShow(() => {
+  getUserInfo()
+})
 
 onLoad(() => {
   getUserService()
@@ -75,15 +92,15 @@ const logoutHandler = () => {
   <view class="my">
     <!-- 用户头像昵称 -->
     <view class="avatar">
-      <image class="img" :src="userStore.userInfo.avatar" />
+      <image class="img" :src="userStore.showAvatar" />
       <view>{{ userStore.showName }}</view>
     </view>
 
     <!-- 用户服务 -->
-    <Service service-text="用户服务" :service-list="userService"></Service>
+    <UserService service-text="用户服务" :service-list="userService"></UserService>
 
     <!-- 骑手服务 -->
-    <Service service-text="骑手服务" :service-list="riderService"></Service>
+    <RiderService></RiderService>
 
     <view class="bottom">
       <navigator url="/pages/userDetails/userDetails" class="item">
