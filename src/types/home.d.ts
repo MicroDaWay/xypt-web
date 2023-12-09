@@ -5,3 +5,13 @@ export interface BannerItem {
 }
 
 export type BannerList = BannerItem[]
+
+// 首页菜单数据
+export interface MenuItem {
+  id: number
+  imgUrl: string
+  text: string
+  state: number
+}
+
+export type MenuList = MenuItem[]

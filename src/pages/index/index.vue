@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import HomeBanner from './components/HomeBanner.vue'
+import Menu from './components/Menu.vue'
 import NoticeBar from './components/NoticeBar.vue'
 </script>
 
@@ -7,6 +8,7 @@ import NoticeBar from './components/NoticeBar.vue'
   <view class="home">
     <HomeBanner class="banner"></HomeBanner>
     <NoticeBar></NoticeBar>
+    <Menu></Menu>
   </view>
 </template>
 

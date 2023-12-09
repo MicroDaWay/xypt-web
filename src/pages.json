@@ -35,7 +35,7 @@
     {
       "path": "pages/address/address",
       "style": {
-        "navigationBarTitleText": "我的订单"
+        "navigationBarTitleText": "我的地址"
       }
     },
     {
@@ -90,6 +90,18 @@
       "path": "pages/recharge/recharge",
       "style": {
         "navigationBarTitleText": "充值"
+      }
+    },
+    {
+      "path": "pages/addressManage/addressManage",
+      "style": {
+        "navigationBarTitleText": "地址管理"
+      }
+    },
+    {
+      "path": "pages/placeOrder/placeOrder",
+      "style": {
+        "navigationBarTitleText": "下单"
       }
     }
   ],

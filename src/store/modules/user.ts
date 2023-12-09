@@ -1,4 +1,4 @@
-import type { UserInfo } from '@/types/user'
+import type { AddressItem, UserInfo } from '@/types/user'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
