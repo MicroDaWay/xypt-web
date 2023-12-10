@@ -13,11 +13,13 @@ const props = defineProps<{
 
 const formRef = ref()
 
+// 表单数据
 const formData = ref<PlaceOrderParams>({
   orderType: +props.orderType,
   fee: 1,
 } as PlaceOrderParams)
 
+// 表单校验规则
 const rules = ref({
   tradeName: {
     rules: [
@@ -101,6 +103,11 @@ const range = ref([
   { value: 2, text: '代买零食' },
 ])
 
+// 修改订单类型的处理函数
+const changeOrderType = (e: any) => {
+  formData.value.orderType = e
+}
+
 // 点击提交订单的处理函数
 const submitHandler = async () => {
   if (!selectedAddress.value?.id) {
@@ -135,11 +142,6 @@ const submitHandler = async () => {
   } catch (err) {
     console.log('出错了', err)
   }
-}
-
-// 修改订单类型的处理函数
-const changeOrderType = (e: any) => {
-  formData.value.orderType = e
 }
 </script>
 

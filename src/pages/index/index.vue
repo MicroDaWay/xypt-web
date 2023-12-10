@@ -7,6 +7,7 @@ import HomeBanner from './components/HomeBanner.vue'
 import Menu from './components/Menu.vue'
 import NoticeBar from './components/NoticeBar.vue'
 import type { PlaceOrderParams } from '@/types/order'
+import OrderItem from '@/components/OrderItem.vue'
 
 const userStore = useUserStore()
 
@@ -20,7 +21,6 @@ const getPendingOrders = async () => {
     if (res.code === 0) {
       pendingOrders.value = res.data
     }
-    console.log(res)
   } catch (err) {
     console.log('出错了', err)
   }
@@ -35,9 +35,19 @@ onShow(() => {
 
 <template>
   <view class="home">
-    <HomeBanner class="banner"></HomeBanner>
+    <HomeBanner></HomeBanner>
     <NoticeBar></NoticeBar>
     <Menu></Menu>
+    <view>
+      <view class="order-text">跑腿订单</view>
+      <OrderItem
+        v-if="pendingOrders.length"
+        @update-order-state="getPendingOrders"
+        type="home"
+        :order-list="pendingOrders"
+      ></OrderItem>
+      <view v-else class="no-order">暂无订单</view>
+    </view>
   </view>
 </template>
 
@@ -53,6 +63,21 @@ page {
 
   .notice-bar {
     margin: 20rpx 0;
+  }
+
+  .order-text {
+    padding: 20rpx;
+    margin: 20rpx 0;
+    background-color: #fff;
+    color: #2979ff;
+  }
+
+  .no-order {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40rpx;
+    height: 100rpx;
   }
 }
 </style>

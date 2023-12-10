@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { logoutAPI } from '@/apis/login'
-import { getRiderServiceAPI, getUserInfoAPI, getUserServiceAPI } from '@/apis/user'
+import { getUserInfoAPI, getUserServiceAPI } from '@/apis/user'
 import { useUserStore } from '@/store/modules/user'
 import type { ServiceList } from '@/types/user'
 import { onLoad, onShow } from '@dcloudio/uni-app'
@@ -28,18 +28,6 @@ const getUserService = async () => {
   }
 }
 
-// 获取骑手服务数据
-const getRiderService = async () => {
-  try {
-    const res = await getRiderServiceAPI()
-    if (res.code === 0) {
-      riderService.value = res.data
-    }
-  } catch (err) {
-    console.log('出错了', err)
-  }
-}
-
 // 获取用户信息
 const getUserInfo = async () => {
   try {
@@ -58,7 +46,6 @@ onShow(() => {
 
 onLoad(() => {
   getUserService()
-  getRiderService()
 })
 
 // 点击退出登录的处理函数

@@ -1,18 +1,10 @@
 <script setup lang="ts">
+import { orderStateList } from '@/apis/constant'
 import { getOrderAPI } from '@/apis/order'
+import OrderItem from '@/components/OrderItem.vue'
 import type { PlaceOrderParams } from '@/types/order'
-import { onLoad, onShow } from '@dcloudio/uni-app'
+import { onShow } from '@dcloudio/uni-app'
 import { ref } from 'vue'
-
-// 订单状态列表
-const orderStateList = ref([
-  { orderState: 0, value: '全部订单' },
-  { orderState: 1, value: '待接单' },
-  { orderState: 2, value: '待送达' },
-  { orderState: 3, value: '待收货' },
-  { orderState: 4, value: '待评价' },
-  { orderState: 5, value: '已取消' },
-])
 
 // 当前选中的tabBar的索引
 const activeIndex = ref(0)
@@ -41,28 +33,6 @@ const getOrderList = async (orderState = 0) => {
 onShow(() => {
   getOrderList()
 })
-
-// 获取orderType的值
-const getOrderTypeValue = (orderType: number) => {
-  if (orderType === 0) {
-    return '快递'
-  } else if (orderType === 1) {
-    return '餐品'
-  } else if (orderType === 2) {
-    return '零食'
-  }
-}
-
-// 根据orderType获取背景颜色
-const getBackgroundColor = (orderType: number) => {
-  if (orderType === 0) {
-    return '#2979ff'
-  } else if (orderType === 1) {
-    return '#18bc37'
-  } else if (orderType === 2) {
-    return 'orange'
-  }
-}
 </script>
 
 <template>
@@ -70,39 +40,20 @@ const getBackgroundColor = (orderType: number) => {
     <view class="tab-bar">
       <view
         class="tab-item"
-        @tap="changeTab(index)"
+        :class="{ active: activeIndex === index }"
         v-for="(item, index) in orderStateList"
         :key="item.orderState"
-        :class="{ active: activeIndex === index }"
+        @tap="changeTab(index)"
         >{{ item.value }}</view
       >
     </view>
-    <view class="order-list">
-      <view class="order-item" v-for="item in orderList" :key="item.id">
-        <view class="top">
-          <view class="left">
-            <text class="type" :style="{ backgroundColor: getBackgroundColor(item.orderType) }">{{
-              getOrderTypeValue(item.orderType)
-            }}</text>
-            <text>{{ item.tradeName }}</text>
-          </view>
-          <view class="right">
-            <text>跑腿费</text>
-            <view class="fee">
-              <text class="rmb">￥</text>
-              <text class="money">{{ item.fee }}</text>
-            </view>
-          </view>
-        </view>
-        <view class="bottom">
-          <view class="state">{{ orderStateList[item.orderState].value }}</view>
-          <view class="delete">
-            <uni-icons type="trash" size="20"></uni-icons>
-            <text class="delete-text">删除</text>
-          </view>
-        </view>
-      </view>
-    </view>
+    <OrderItem
+      v-if="orderList.length"
+      type="order"
+      :order-list="orderList"
+      @update-order-state="getOrderList"
+    ></OrderItem>
+    <view v-else class="no-order">暂无订单</view>
   </view>
 </template>
 
@@ -116,10 +67,10 @@ page {
       flex-wrap: nowrap;
       justify-content: space-between;
       align-items: center;
-      margin: 20rpx;
+      margin: 20rpx 10rpx;
 
       .tab-item {
-        font-size: 28rpx;
+        font-size: 26rpx;
         padding-bottom: 10rpx;
         margin: 0 10rpx;
       }
@@ -130,63 +81,12 @@ page {
       }
     }
 
-    .order-list {
-      .order-item {
-        padding: 20rpx;
-        margin: 20rpx;
-        background-color: #fff;
-        border-radius: 10rpx;
-
-        .top {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 10rpx;
-
-          .left {
-            .type {
-              margin-right: 20rpx;
-              color: #fff;
-              border-radius: 10rpx;
-              padding: 0 10rpx;
-            }
-          }
-
-          .right {
-            display: flex;
-
-            .fee {
-              color: #e43d33;
-              margin-left: 10rpx;
-
-              .rmb {
-                font-size: 22rpx;
-              }
-            }
-          }
-        }
-
-        .bottom {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          .state {
-            color: #666;
-          }
-
-          .delete {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            .delete-text {
-              font-size: 28rpx;
-              margin-left: 5rpx;
-            }
-          }
-        }
-      }
+    .no-order {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40rpx;
+      height: 100rpx;
     }
   }
 }

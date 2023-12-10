@@ -7,4 +7,6 @@ export interface PlaceOrderParams {
   orderType: number
   orderState: number
   note: string
+  evaluate: string
+  rate: number
 }

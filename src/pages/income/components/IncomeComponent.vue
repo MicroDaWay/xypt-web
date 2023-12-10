@@ -9,6 +9,16 @@ const props = defineProps<{
 const activeBackgroundColor = computed(() => {
   return props.item.state === 0 ? '#e43d33' : '#18bc37'
 })
+
+const rechargeText = computed(() => {
+  if (props.item.state === 0) {
+    return '扣款'
+  } else if (props.item.state === 1) {
+    return '充值'
+  } else if (props.item.state === 2) {
+    return '退款'
+  }
+})
 </script>
 
 <template>
@@ -16,9 +26,9 @@ const activeBackgroundColor = computed(() => {
     <view class="top">
       <view class="left">
         <text class="recharge" :style="{ backgroundColor: activeBackgroundColor }">{{
-          item.state === 0 ? '扣款' : '充值'
+          rechargeText
         }}</text>
-        <text>钱包{{ item.state === 0 ? '扣款' : '充值' }}</text>
+        <text>钱包{{ rechargeText }}</text>
       </view>
       <view class="right" :style="{ color: activeBackgroundColor }">
         {{ item.state === 0 ? '-' : '+' }}{{ item.moneyChange }}

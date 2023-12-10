@@ -15,13 +15,6 @@ export const getUserServiceAPI = () => {
   })
 }
 
-// 获取骑手服务中的数据
-export const getRiderServiceAPI = () => {
-  return request<ServiceList>({
-    url: '/user/riderService',
-  })
-}
-
 // 更新用户信息
 export const updateUserInfoAPI = (data: UserInfo) => {
   return request({
