@@ -40,6 +40,10 @@ onLoad(() => {
 page {
   background-color: #eee;
 
+  .rider-order {
+    padding: 0 20rpx 20rpx;
+  }
+
   .no-order {
     display: flex;
     justify-content: center;

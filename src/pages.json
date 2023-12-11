@@ -109,6 +109,12 @@
       "style": {
         "navigationBarTitleText": "骑手审核"
       }
+    },
+    {
+      "path": "pages/orderDetails/orderDetails",
+      "style": {
+        "navigationBarTitleText": "订单详情"
+      }
     }
   ],
   "globalStyle": {

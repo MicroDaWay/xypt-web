@@ -47,12 +47,13 @@ onShow(() => {
         >{{ item.value }}</view
       >
     </view>
-    <OrderItem
-      v-if="orderList.length"
-      type="order"
-      :order-list="orderList"
-      @update-order-state="getOrderList"
-    ></OrderItem>
+    <view class="list" v-if="orderList.length">
+      <OrderItem
+        type="order"
+        :order-list="orderList"
+        @update-order-state="getOrderList"
+      ></OrderItem>
+    </view>
     <view v-else class="no-order">暂无订单</view>
   </view>
 </template>
@@ -67,7 +68,13 @@ page {
       flex-wrap: nowrap;
       justify-content: space-between;
       align-items: center;
-      margin: 20rpx 10rpx;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80rpx;
+      padding: 0 10rpx;
+      background-color: #eee;
 
       .tab-item {
         font-size: 26rpx;
@@ -79,6 +86,10 @@ page {
         color: #006eff;
         border-bottom: 2px solid #006eff;
       }
+    }
+
+    .list {
+      padding: 80rpx 20rpx 20rpx;
     }
 
     .no-order {

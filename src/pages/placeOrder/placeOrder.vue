@@ -11,6 +11,32 @@ const props = defineProps<{
   orderType: number
 }>()
 
+// 地址
+const address = ref<AddressItem>({} as AddressItem)
+
+// 获取地址列表
+const getAddressList = async () => {
+  try {
+    const res = await getAddressAPI()
+    if (res.code === 0) {
+      address.value = res.data.find((item: AddressItem) => item.isDefault === 1)!
+    }
+  } catch (err) {
+    console.log('出错了', err)
+  }
+}
+
+const addressStore = useAddressStore()
+
+// 选择的地址
+const selectedAddress = computed(() => {
+  if (addressStore.address.id) {
+    return addressStore.address
+  }
+
+  return address.value
+})
+
 const formRef = ref()
 
 // 表单数据
@@ -55,32 +81,6 @@ const rules = ref({
   },
 })
 
-// 地址
-const address = ref<AddressItem>({} as AddressItem)
-
-// 获取地址列表
-const getAddressList = async () => {
-  try {
-    const res = await getAddressAPI()
-    if (res.code === 0) {
-      address.value = res.data.find((item: AddressItem) => item.isDefault === 1)!
-    }
-  } catch (err) {
-    console.log('出错了', err)
-  }
-}
-
-const addressStore = useAddressStore()
-
-// 选择的地址
-const selectedAddress = computed(() => {
-  if (addressStore.address.id) {
-    return addressStore.address
-  }
-
-  return address.value
-})
-
 onShow(() => {
   getAddressList()
 })
@@ -119,6 +119,11 @@ const submitHandler = async () => {
   }
 
   await formRef.value.validate()
+
+  formData.value.payUserName = selectedAddress.value.name
+  formData.value.payUserAddress =
+    selectedAddress.value.buildingNumber + '' + selectedAddress.value.houseNumber
+  formData.value.payUserPhone = selectedAddress.value.phone
 
   try {
     const res = await submitOrderAPI(formData.value)

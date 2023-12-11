@@ -9,4 +9,13 @@ export interface PlaceOrderParams {
   note: string
   evaluate: string
   rate: number
+  payUserId: number
+  payUserName: string
+  payUserAddress: string
+  payUserPhone: string
+  receiveUserId: number
+  receiveUserPhone: string
+  receiveUserName: string
+  createTime: string
+  updateTime: string
 }

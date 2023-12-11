@@ -156,10 +156,26 @@ const sendHandler = (id: number, orderState: number) => {
     console.log('出错了', err)
   }
 }
+
+// 点击订单的处理函数
+const clickOrderItem = (item: PlaceOrderParams) => {
+  if (
+    [
+      OrderStateEnum.AwaitSend,
+      OrderStateEnum.AwaitReceive,
+      OrderStateEnum.AwaitEvaluate,
+      OrderStateEnum.FullFilled,
+    ].includes(item.orderState)
+  ) {
+    uni.navigateTo({
+      url: `/pages/orderDetails/orderDetails?id=${item.id}`,
+    })
+  }
+}
 </script>
 
 <template>
-  <view class="order-item" v-for="item in orderList" :key="item.id">
+  <view @tap="clickOrderItem(item)" class="order-item" v-for="item in orderList" :key="item.id">
     <view class="top">
       <view class="left">
         <text class="type" :style="{ backgroundColor: getBackgroundColor(item.orderType) }">{{
@@ -177,37 +193,43 @@ const sendHandler = (id: number, orderState: number) => {
     </view>
     <view class="bottom">
       <view class="state">{{ orderStateList[item.orderState].value }}</view>
-      <text class="receive-orders" v-if="type === 'home'" @tap="acceptHandler(item.id)">接单</text>
+      <text class="receive-orders" v-if="type === 'home'" @tap.stop="acceptHandler(item.id)"
+        >接单</text
+      >
       <view class="delete" v-else>
         <text
-          @tap="cancelOrder(item.id, 5)"
+          @tap.stop="cancelOrder(item.id, 5)"
           class="cancel"
           v-if="item.orderState === OrderStateEnum.AwaitPending && type === 'order'"
           >取消订单</text
         >
         <text
-          @tap="sendHandler(item.id, 3)"
+          @tap.stop="sendHandler(item.id, 3)"
           class="receive"
           v-if="item.orderState === OrderStateEnum.AwaitSend && type === 'riderOrder'"
           >送达</text
         >
         <text
-          @tap="receiveHandler(item.id, 4)"
+          @tap.stop="receiveHandler(item.id, 4)"
           class="receive"
           v-if="item.orderState === OrderStateEnum.AwaitReceive && type === 'order'"
           >确认收货</text
         >
         <text
-          @tap="evaluateHandler(item.id)"
+          @tap.stop="evaluateHandler(item.id)"
           class="evaluate"
-          v-if="item.orderState === OrderStateEnum.AwaitEvaluate && type === 'order'"
+          v-if="
+            item.orderState === OrderStateEnum.AwaitEvaluate &&
+            (type === 'order' || type === 'evaluate')
+          "
           >去评价</text
         >
         <view
-          @tap="deleteOrder(item.id)"
+          @tap.stop="deleteOrder(item.id)"
           v-if="item.orderState === OrderStateEnum.Cancel && type === 'order'"
+          class="trash-delete"
         >
-          <uni-icons type="trash" size="20"></uni-icons>
+          <uni-icons class="trash" type="trash" size="18"></uni-icons>
           <text class="delete-text">删除</text>
         </view>
       </view>
@@ -286,9 +308,14 @@ const sendHandler = (id: number, orderState: number) => {
         border-radius: 10rpx;
       }
 
-      .delete-text {
-        font-size: 28rpx;
-        margin-left: 5rpx;
+      .trash-delete {
+        display: flex;
+        align-items: center;
+
+        .delete-text {
+          font-size: 30rpx;
+          margin-left: 5rpx;
+        }
       }
     }
 

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { evaluateOrderAPI, updateOrderStateAPI } from '@/apis/order'
+import { evaluateOrderAPI, getOrderAPI, updateOrderStateAPI } from '@/apis/order'
+import OrderItem from '@/components/OrderItem.vue'
 import type { PlaceOrderParams } from '@/types/order'
-import { onReady } from '@dcloudio/uni-app'
+import { onReady, onShow } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 
 const formRef = ref()
@@ -43,7 +44,9 @@ const changeRate = (e: any) => {
 }
 
 onReady(() => {
-  formRef.value.setRules(rules.value)
+  if (props.id) {
+    formRef.value.setRules(rules.value)
+  }
 })
 
 // 点击保存的处理函数
@@ -73,10 +76,30 @@ const submitHandler = async () => {
     console.log('出错了', err)
   }
 }
+
+// 待评价的列表
+const orderList = ref<PlaceOrderParams[]>([])
+
+const getOrderList = async () => {
+  try {
+    const res = await getOrderAPI(4)
+    if (res.code === 0) {
+      orderList.value = res.data
+    }
+  } catch (err) {
+    console.log('出错了', err)
+  }
+}
+
+onShow(() => {
+  if (!props.id) {
+    getOrderList()
+  }
+})
 </script>
 
 <template>
-  <view class="evaluate">
+  <view class="evaluate" v-if="id">
     <uni-forms ref="formRef" :modelValue="formData">
       <uni-forms-item label="评价" name="evaluate">
         <uni-easyinput type="textarea" placeholder="请输入评价" v-model="formData.evaluate" />
@@ -89,6 +112,9 @@ const submitHandler = async () => {
     </uni-forms-item>
     <button class="save" @tap="submitHandler">保存</button>
   </view>
+  <view v-else class="list">
+    <OrderItem type="evaluate" :orderList="orderList"></OrderItem>
+  </view>
 </template>
 
 <style lang="scss">
@@ -99,6 +125,10 @@ page {
     margin: 20rpx;
     padding: 30rpx;
     background-color: #fff;
+  }
+
+  .list {
+    margin: 20rpx;
   }
 
   .rate {

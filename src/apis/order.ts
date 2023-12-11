@@ -66,3 +66,10 @@ export const getRiderOrderAPI = () => {
     url: '/order/riderOrder',
   })
 }
+
+// 根据id获取订单信息
+export const getOrderByIdAPI = (id: number) => {
+  return request<PlaceOrderParams>({
+    url: `/order/get/${id}`,
+  })
+}
