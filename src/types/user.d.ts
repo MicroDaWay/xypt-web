@@ -12,16 +12,6 @@ export interface UserInfo {
   updateTime: string
 }
 
-// 用户服务的类型
-export interface ServiceItem {
-  id: string
-  imgUrl: string
-  text: string
-  url: string
-}
-
-export type ServiceList = ServiceItem[]
-
 // 用户收支记录的数据类型
 export interface IncomeRecordItem {
   id: number

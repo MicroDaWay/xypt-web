@@ -1,6 +1,7 @@
 import { useUserStore } from '@/store/modules/user'
 
-const baseURL = 'http://localhost:8080'
+// const baseURL = 'http://localhost:8080'
+const baseURL = 'http://192.168.43.236:8080'
 
 // 添加拦截器
 const interceptorObj = {

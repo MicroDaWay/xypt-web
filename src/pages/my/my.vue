@@ -1,32 +1,12 @@
 <script setup lang="ts">
 import { logoutAPI } from '@/apis/login'
-import { getUserInfoAPI, getUserServiceAPI } from '@/apis/user'
+import { getUserInfoAPI } from '@/apis/user'
 import { useUserStore } from '@/store/modules/user'
-import type { ServiceList } from '@/types/user'
-import { onLoad, onShow } from '@dcloudio/uni-app'
-import { ref } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 import RiderService from './components/RiderService.vue'
 import UserService from './components/UserService.vue'
 
 const userStore = useUserStore()
-
-// 用户服务数据
-const userService = ref<ServiceList>([])
-
-// 骑手服务数据
-const riderService = ref<ServiceList>([])
-
-// 获取用户服务数据
-const getUserService = async () => {
-  try {
-    const res = await getUserServiceAPI()
-    if (res.code === 0) {
-      userService.value = res.data
-    }
-  } catch (err) {
-    console.log('出错了', err)
-  }
-}
 
 // 获取用户信息
 const getUserInfo = async () => {
@@ -42,10 +22,6 @@ const getUserInfo = async () => {
 
 onShow(() => {
   getUserInfo()
-})
-
-onLoad(() => {
-  getUserService()
 })
 
 // 点击退出登录的处理函数
@@ -84,7 +60,7 @@ const logoutHandler = () => {
     </view>
 
     <!-- 用户服务 -->
-    <UserService service-text="用户服务" :service-list="userService"></UserService>
+    <UserService></UserService>
 
     <!-- 骑手服务 -->
     <RiderService></RiderService>
@@ -142,7 +118,7 @@ page {
     .item {
       display: flex;
       align-items: center;
-      height: 70rpx;
+      height: 80rpx;
       padding: 0 20rpx;
       border-bottom: 1rpx solid #eee;
 

@@ -68,7 +68,7 @@ page {
 
     .recharge {
       margin-top: 20rpx;
-      background-color: #006eff;
+      background-color: $uni-color-primary;
       color: #fff;
     }
   }

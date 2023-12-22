@@ -1,17 +1,10 @@
-import type { IncomeRecordList, ServiceList, UserInfo } from '@/types/user'
+import type { IncomeRecordList, UserInfo } from '@/types/user'
 import request from '@/utils/request'
 
 // 获取用户信息
 export const getUserInfoAPI = () => {
   return request<UserInfo>({
     url: '/user/userInfo',
-  })
-}
-
-// 获取用户服务中的数据
-export const getUserServiceAPI = () => {
-  return request<ServiceList>({
-    url: '/user/service',
   })
 }
 

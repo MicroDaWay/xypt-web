@@ -1,39 +1,18 @@
-<script setup lang="ts">
-import { getMenuAPI } from '@/apis/home'
-import type { MenuList } from '@/types/home'
-import { onLoad } from '@dcloudio/uni-app'
-import { ref } from 'vue'
-
-// 菜单数据
-const menuList = ref<MenuList>([])
-
-// 获取菜单数据
-const getMenuList = async () => {
-  try {
-    const res = await getMenuAPI()
-    if (res.code === 0) {
-      menuList.value = res.data
-    }
-  } catch (err) {
-    console.log('出错了', err)
-  }
-}
-
-onLoad(() => {
-  getMenuList()
-})
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <view class="outer">
-    <navigator
-      :url="`/pages/placeOrder/placeOrder?orderType=${item.state}`"
-      class="item"
-      v-for="item in menuList"
-      :key="item.id"
-    >
-      <image class="img" :src="item.imgUrl" />
-      <view class="text">{{ item.text }}</view>
+    <navigator url="/pages/placeOrder/placeOrder?orderType=0" class="item">
+      <image class="img" src="/static/home/express.png" />
+      <view class="text">代拿快递</view>
+    </navigator>
+    <navigator url="/pages/placeOrder/placeOrder?orderType=1" class="item">
+      <image class="img" src="/static/home/meals.png" />
+      <view class="text">代取餐品</view>
+    </navigator>
+    <navigator url="/pages/placeOrder/placeOrder?orderType=2" class="item">
+      <image class="img" src="/static/home/snack.png" />
+      <view class="text">代买零食</view>
     </navigator>
   </view>
 </template>

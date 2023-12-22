@@ -162,7 +162,7 @@ const saveHandler = async () => {
       </uni-forms-item>
       <uni-forms-item label="设为默认地址" :label-width="100">
         <view class="switch-box">
-          <switch @change="switchChange" :checked="formData.isDefault === 1" color="#006eff" />
+          <switch @change="switchChange" :checked="formData.isDefault === 1" color="#007aff" />
         </view>
       </uni-forms-item>
       <button class="save" @tap="saveHandler">保存</button>
@@ -195,7 +195,7 @@ page {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #006eff;
+      background-color: $uni-color-primary;
       color: #fff;
       height: 80rpx;
     }

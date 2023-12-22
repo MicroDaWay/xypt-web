@@ -141,7 +141,7 @@ const submitHandler = async () => {
     } else {
       uni.showToast({
         icon: 'fail',
-        title: '下单失败',
+        title: res.message,
       })
     }
   } catch (err) {
@@ -213,7 +213,7 @@ page {
 
         .default {
           margin-left: 20rpx;
-          background-color: #006eff;
+          background-color: $uni-color-primary;
           color: #fff;
           border-radius: 10rpx;
           padding: 0 10rpx;
@@ -242,7 +242,7 @@ page {
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #006eff;
+        background-color: $uni-color-primary;
         color: #fff;
         height: 80rpx;
       }

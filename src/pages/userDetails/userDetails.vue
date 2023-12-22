@@ -156,9 +156,9 @@ const submitHandler = async () => {
           style="height: 100%; display: flex; align-items: center"
         >
           <label style="margin-right: 20rpx">
-            <radio color="#006eff" :value="1" :checked="formData.gender === 1" />男
+            <radio color="#007aff" :value="1" :checked="formData.gender === 1" />男
           </label>
-          <label> <radio color="#006eff" :value="0" :checked="formData.gender === 0" />女 </label>
+          <label> <radio color="#007aff" :value="0" :checked="formData.gender === 0" />女 </label>
         </radio-group>
       </uni-forms-item>
       <uni-forms-item label="手机号" name="phone">
@@ -193,7 +193,7 @@ page {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #006eff;
+      background-color: $uni-color-primary;
       color: #fff;
       width: 200rpx;
       height: 70rpx;

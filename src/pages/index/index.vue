@@ -38,7 +38,7 @@ onShow(() => {
     <HomeBanner></HomeBanner>
     <NoticeBar></NoticeBar>
     <Menu></Menu>
-    <view>
+    <view v-if="userStore.userInfo.role === 2">
       <view class="order-text">跑腿订单</view>
       <OrderItem
         v-if="pendingOrders.length"
@@ -53,31 +53,29 @@ onShow(() => {
 
 <style lang="scss">
 page {
-  width: 100%;
-  height: 100vh;
   background-color: #eee;
-}
 
-.home {
-  padding: 20rpx;
-
-  .notice-bar {
-    margin: 20rpx 0;
-  }
-
-  .order-text {
+  .home {
     padding: 20rpx;
-    margin: 20rpx 0;
-    background-color: #fff;
-    color: #2979ff;
-  }
 
-  .no-order {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 40rpx;
-    height: 100rpx;
+    .notice-bar {
+      margin: 20rpx 0;
+    }
+
+    .order-text {
+      padding: 20rpx;
+      margin: 20rpx 0;
+      background-color: #fff;
+      color: #2979ff;
+    }
+
+    .no-order {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40rpx;
+      height: 100rpx;
+    }
   }
 }
 </style>

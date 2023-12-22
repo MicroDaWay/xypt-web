@@ -54,7 +54,7 @@ onShow(() => {
         @update-order-state="getOrderList"
       ></OrderItem>
     </view>
-    <view v-else class="no-order">暂无订单</view>
+    <view v-else class="no-order">暂无数据</view>
   </view>
 </template>
 
@@ -83,8 +83,8 @@ page {
       }
 
       .active {
-        color: #006eff;
-        border-bottom: 2px solid #006eff;
+        color: $uni-color-primary;
+        border-bottom: 2px solid $uni-color-primary;
       }
     }
 
@@ -98,6 +98,7 @@ page {
       align-items: center;
       font-size: 40rpx;
       height: 100rpx;
+      margin-top: 100rpx;
     }
   }
 }

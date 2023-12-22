@@ -60,7 +60,7 @@ const examineHandler = (id: number, userId: number) => {
           <view class="idCard">{{ item.idCard }}</view>
           <view class="address">{{ item.address }}</view>
         </view>
-        <text class="examine-pass" @tap="examineHandler(item.id, item.userId)">待审核</text>
+        <text class="examine-pass" @tap="examineHandler(item.id!, item.userId!)">待审核</text>
       </view>
     </view>
     <view v-else class="no-rider">暂无需要审核的骑手</view>

@@ -113,7 +113,8 @@ onShow(() => {
     <button class="save" @tap="submitHandler">保存</button>
   </view>
   <view v-else class="list">
-    <OrderItem type="evaluate" :orderList="orderList"></OrderItem>
+    <OrderItem v-if="orderList.length" type="evaluate" :orderList="orderList"></OrderItem>
+    <div class="no-order" v-else>暂无需要评价的订单</div>
   </view>
 </template>
 
@@ -129,6 +130,12 @@ page {
 
   .list {
     margin: 20rpx;
+
+    .no-order {
+      text-align: center;
+      font-size: 40rpx;
+      margin-top: 50rpx;
+    }
   }
 
   .rate {
@@ -141,7 +148,7 @@ page {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #006eff;
+    background-color: $uni-color-primary;
     color: #fff;
     height: 70rpx;
   }

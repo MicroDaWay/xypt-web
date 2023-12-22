@@ -125,7 +125,7 @@
   },
   "tabBar": {
     "color": "#515151",
-    "selectedColor": "#006eff",
+    "selectedColor": "#007aff",
     "list": [
       {
         "text": "首页",

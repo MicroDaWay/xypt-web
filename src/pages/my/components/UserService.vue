@@ -1,22 +1,25 @@
-<script setup lang="ts">
-import type { ServiceList } from '@/types/user'
-
-const props = defineProps<{
-  serviceText: string
-  serviceList: ServiceList
-}>()
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <view class="service">
-    <view class="service-text">{{ serviceText }}</view>
+    <view class="service-text">用户服务</view>
     <view class="container">
-      <view v-for="item in serviceList" :key="item.id">
-        <navigator class="outer" :url="item.url">
-          <img class="img" :src="item.imgUrl" />
-          <text class="bottom-text">{{ item.text }}</text>
-        </navigator>
-      </view>
+      <navigator class="outer" url="/pages/address/address">
+        <img class="img" src="/static/my/address.png" />
+        <text class="bottom-text">我的地址</text>
+      </navigator>
+      <navigator class="outer" url="/pages/income/income">
+        <img class="img" src="/static/my/income.png" />
+        <text class="bottom-text">收支明细</text>
+      </navigator>
+      <navigator class="outer" url="/pages/evaluate/evaluate">
+        <img class="img" src="/static/my/evaluate.png" />
+        <text class="bottom-text">评价中心</text>
+      </navigator>
+      <navigator class="outer" url="/pages/wallet/wallet">
+        <img class="img" src="/static/my/wallet.png" />
+        <text class="bottom-text">我的钱包</text>
+      </navigator>
     </view>
   </view>
 </template>

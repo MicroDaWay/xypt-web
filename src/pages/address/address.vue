@@ -134,7 +134,7 @@ page {
 
           .default {
             margin-left: 20rpx;
-            background-color: #006eff;
+            background-color: $uni-color-primary;
             color: #fff;
             border-radius: 10rpx;
             padding: 0 10rpx;
@@ -166,7 +166,7 @@ page {
       margin: auto;
       font-size: 30rpx;
       margin: 0 20rpx;
-      background-color: #006eff;
+      background-color: $uni-color-primary;
       color: #fff;
     }
   }

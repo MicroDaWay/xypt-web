@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { loginAPI, registerAPI } from '@/apis/login'
+import { getUserInfoAPI } from '@/apis/user'
+import { useUserStore } from '@/store/modules/user'
 import type { LoginParams } from '@/types/login'
 import { onReady, onShow } from '@dcloudio/uni-app'
-import { ref } from 'vue'
-import { loginAPI, registerAPI } from '@/apis/login'
-import { useUserStore } from '@/store/modules/user'
-import { getUserInfoAPI } from '@/apis/user'
+import { ref, watch } from 'vue'
 
 // 是否是登录页面
 const isLogin = ref(true)
@@ -81,7 +81,7 @@ const submitHandler = async () => {
         }
 
         uni.showToast({
-          icon: 'none',
+          icon: 'success',
           title: '登录成功',
         })
 
@@ -92,7 +92,7 @@ const submitHandler = async () => {
         }, 1000)
       } else {
         uni.showToast({
-          icon: 'none',
+          icon: 'error',
           title: res.message,
         })
       }
@@ -124,6 +124,14 @@ const submitHandler = async () => {
     console.log('出错了', err)
   }
 }
+
+watch(
+  () => isLogin.value,
+  () => {
+    formData.value.username = ''
+    formData.value.password = ''
+  }
+)
 </script>
 
 <template>
@@ -146,7 +154,7 @@ const submitHandler = async () => {
           v-model="formData.password"
         />
       </uni-forms-item>
-      <button @tap="submitHandler" style="background-color: #006eff; color: #fff">
+      <button @tap="submitHandler" style="background-color: #007aff; color: #fff">
         {{ isLogin ? '登录' : '注册' }}
       </button>
       <view class="outer">
@@ -165,8 +173,6 @@ const submitHandler = async () => {
 
 <style lang="scss">
 page {
-  width: 100vw;
-  height: 100vh;
   background-color: #eee;
 
   .login {
@@ -192,7 +198,7 @@ page {
       margin-top: 50rpx;
 
       .login-register {
-        color: #006eff;
+        color: $uni-color-primary;
       }
     }
   }
