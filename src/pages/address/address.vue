@@ -162,10 +162,9 @@ page {
       position: fixed;
       left: 0;
       right: 0;
-      bottom: 50rpx;
-      margin: auto;
-      font-size: 30rpx;
+      bottom: 100rpx;
       margin: 0 20rpx;
+      font-size: 30rpx;
       background-color: $uni-color-primary;
       color: #fff;
     }
