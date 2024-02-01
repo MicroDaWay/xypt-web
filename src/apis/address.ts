@@ -1,4 +1,4 @@
-import type { AddressItem, AddressList } from '@/types/user'
+import type { AddressItem, AddressList } from '@/types/address'
 import request from '@/utils/request'
 
 // 获取用户的所有地址
